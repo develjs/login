@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <label>login</label><input type="text" name="login"/><br/>
+    <label>password</label><input type="password" name="password"/><br/>
+    <button onclick="register()">register</button>
+    <button onclick="login()">login</button><br/>
+    <button onclick="user()">user info</button>
+    <button onclick="logout()">logout</button>
+    
+    <script>
+        function query(path, method, data) {
+            return fetch(path, {
+                method: method||'GET', 
+                mode: 'cors', 
+                cache: 'no-cache', 
+                body: /POST|PUT/.test(method)? JSON.stringify(data): null, 
+                headers: {'Content-Type': 'application/json'}
+            })
+            .then(res=>res.json())
+            .then(console.log)
+            .catch(console.error)
+        }
+        
+        function register(){
+            query('/register', 'POST', {
+                name: document.querySelector('[name=login]').value, 
+                password: document.querySelector('[name=password]').value
+            });
+        }
+        
+        function login(){
+            query('/login', 'POST', {
+                username:document.querySelector('[name=login]').value, 
+                password:document.querySelector('[name=password]').value
+            });
+        }
+        
+        function user(){
+            query('/user', 'GET');
+        }
+        
+        function logout(){
+            query('/logout', 'GET');
+        }
+    </script>
+</body>
+</html>
